@@ -1,0 +1,11 @@
+For pushing in github
+git init
+git add .
+git commit -m "your message"
+
+For Rakib
+git remote add origin 'https://github.com/Rakib3103/Product-Inventory-Web'
+git commit -m "backends"
+
+For Nourin
+git remote add origin 'https://github.com/nourinsiddique/CSE470_Clueless.git'
