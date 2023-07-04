@@ -1,0 +1,13 @@
+                                -------------------------------------------
+                                |             Mongoose/MongoDB            |
+                                -------------------------------------------  
+** Download Robo 3T for Mongoose GUI. It will be used for Database.
+Link - https://studio3t.com/download-studio3t-free/
+
+** MongoDB Course
+Link - https://studio3t.com/academy/courses/mongodb-101-getting-started/
+
+                                --------------------------------------------
+                                |            Running the Project           |
+                                --------------------------------------------
+** You can run the project using -----------------------> npm start
