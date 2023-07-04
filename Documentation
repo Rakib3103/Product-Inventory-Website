@@ -1,0 +1,3 @@
+Open a Folder
+Run ---> npx create-react-app Product-Inventory-Website
+Run ---> npm start
