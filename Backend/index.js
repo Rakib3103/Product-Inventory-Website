@@ -16,8 +16,12 @@ mongoose.connect("mongodb://127.0.0.1:27017/myLoginRegisterDB", {
 
 // Defining routes
 
-app.get("/", (req, res) => {
-    res.send("My API")
+app.post("/login", (req, res) => {
+    res.send("My API login")
+})
+
+app.post("/register", (req, res) => {
+    res.send("My API register")
 })
 
 app.listen(9002, () => {
