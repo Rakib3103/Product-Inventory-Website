@@ -14,6 +14,17 @@ mongoose.connect("mongodb://127.0.0.1:27017/myLoginRegisterDB", {
     console.log("Database Connected")
 })
 
+// Mongoose Models
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    password: String
+})
+
+const User = new mongoose.model("User", userSchema)
+
+
 // Defining routes
 
 app.post("/login", (req, res) => {
