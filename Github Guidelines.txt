@@ -14,5 +14,6 @@
                             |            For pushing in Nourin's repository        |
                             --------------------------------------------------------
 ** git remote add origin 'https://github.com/nourinsiddique/CSE470_Clueless.git'
+git remote set-url origin 'https://github.com/nourinsiddique/CSE470_Clueless.git'
 ** git commit -m "your message"
 ** sync github
