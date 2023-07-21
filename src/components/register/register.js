@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import "./register.css"
+import axios from "axios" //For Calling API's
 
 const Register = () => {
     
@@ -18,6 +19,14 @@ const Register = () => {
             [name]: value
         })
     }
+
+    const register = () => {
+        const { name, email, password } = user
+        axios.post("http://localhost:9002/register", user)
+    }
+
+
+
     return (
         <div className="register">
             {console.log("User", user)}
@@ -27,7 +36,7 @@ const Register = () => {
             <input type="text" name="phone" value={ user.phone } placeholder="Phone Number" onChange={ handleChange }></input>
             <input type="password" name="password" value={ user.password } placeholder="Password" onChange={ handleChange }></input>
             <input type="reEnterPassword" name="reEnterPassword" value={ user.reEnterPassword } placeholder="Re-enter Password" onChange={ handleChange }></input>
-            <div className="button">Register</div>
+            <div className="button" onClick={register}>Register</div>
             <div>or</div>
             <div className="button">Login</div>
         </div>
