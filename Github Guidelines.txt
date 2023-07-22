@@ -7,7 +7,7 @@
                             -----------------------------------------------------
                             |            For pushing in Rakib's repository      |
                             -----------------------------------------------------
-** git remote add origin 'https://github.com/Rakib3103/Product-Inventory-Web'
+** git remote add origin 'https://github.com/Rakib3103/Product-Inventory-Website.git'
 ** git commit -m "your message"
 ** sync github
                             --------------------------------------------------------

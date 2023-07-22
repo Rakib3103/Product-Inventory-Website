@@ -31,8 +31,22 @@ app.post("/login", (req, res) => {
     res.send("My API login")
 })
 
+// Creating Object Of the User
 app.post("/register", (req, res) => {
-    res.send("My API register")
+    const { name, email, password } = req.body
+    //Creating a user in MongoDB according to the Name, Email, Password
+    const user = new User({
+        name,
+        email,
+        password
+    })
+    user.save( err => {
+        if(err){
+            res.send(err)
+        }else{
+            res.send({ message: "Successfully Registered" })
+        }
+    })
 })
 
 app.listen(9002, () => {

@@ -13,3 +13,4 @@ Link - https://studio3t.com/academy/courses/mongodb-101-getting-started/
 ** You can run the project using -----------------------> npm start
 
 ** For installing Axios which will call API's ---------> npm i axios
+** For Connecting Backend --------> nodemon index.js
