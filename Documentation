@@ -1,3 +1,6 @@
 Open a Folder
 Run ---> npx create-react-app Product-Inventory-Website
 Run ---> npm start
+
+For Routing
+https://reactrouter.com/en/main

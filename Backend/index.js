@@ -26,25 +26,44 @@ const User = new mongoose.model("User", userSchema)
 
 
 // Defining routes
-
+//Login API
 app.post("/login", (req, res) => {
-    res.send("My API login")
+    const { email, password } = req.body
+    User.findOne({ email: email }, (err, user) => {
+        if (user){
+            if (password === user.password) {
+                res.send({message: "Login Successful", user: user})
+            } else {
+            res.send({message: "Password didn't match"})
+            }
+        } else {
+            res.send({message: "User not registered"})
+        }
+    })        
 })
 
 // Creating Object Of the User
+//Register API
 app.post("/register", (req, res) => {
     const { name, email, password } = req.body
-    //Creating a user in MongoDB according to the Name, Email, Password
-    const user = new User({
-        name,
-        email,
-        password
-    })
-    user.save( err => {
-        if(err){
-            res.send(err)
-        }else{
-            res.send({ message: "Successfully Registered" })
+    //Search MongoDB documentation for .findOne function
+    User.findOne({email: email}, (err, user) => {
+        if (user){
+            res.send({message: "User already registered"})
+        } else{
+            //Creating a user in MongoDB according to the Name, Email, Password
+            const user = new User({
+                name,
+                email,
+                password
+            })
+            user.save( err => {
+                if(err){
+                    res.send(err)
+                } else{
+                    res.send({ message: "Successfully Registered" })
+                }
+            })
         }
     })
 })
