@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Homepage</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>SIDEBAR</h2>
+            <div class="inbox" onclick="toggleActive(this)">Inbox</div>
+            <div class="category" onclick="toggleActive(this)">Category</div>
+            <div class="settings" onclick="toggleActive(this)">Settings</div>
+        </aside>
+        
+        <!-- Dashboard -->
+        <main class="dashboard">
+            <header>
+                <h1>DASHBOARD</h1>
+            </header>
+
+          <div class="calendar-container">
+                <div class="small-calendar" id="small-calendar">
+                    <button class="prev" onclick="navigateCalendar('prev')">&lt;</button>
+                    <div class="current-date" id="current-date"></div>
+                    <button class="next" onclick="navigateCalendar('next')">&gt;</button>
+                </div>
+            </div>
+
+            <div class="grocery">
+                <h2>Grocery List</h2>
+                <div class="Add-Grocery-List">
+                    <input type="text" id="grocery-input" placeholder="Add here">
+                    <button onclick="addGrocery()">Add Grocery</button>
+                </div>
+                <ul id="grocery-list">
+                    <!-- The grocery list items will be added dynamically using JavaScript -->
+                </ul>
+            </div>
+
+            <div class="products">
+                <h2>Products</h2>
+                <div class="Add-Product-List">
+                    <input type="text" id="product-name" placeholder="Product Name">
+                    <input type="date" id="expiry-date">
+                    <input type="number" id="quantity" placeholder="Quantity">
+                    <button onclick="addProduct()">Add Product</button>
+                </div>
+                <table id="product-table">
+                    <tr>
+                        <th>Product-Name</th>
+                        <th>Expiry-Date</th>
+                        <th>Quantity</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="reminder">
+                <h2>Reminder List</h2>
+                <div class="Add-reminder">
+                    <input type="text" id="reminder-input" placeholder="Enter a reminder">
+                    <button onclick="addReminder()">Add Reminder</button>
+                </div>
+                <ul id="reminder-list">
+                    <!-- The reminder items will be added dynamically using JavaScript -->
+                </ul>
+            </div>
+          
+        </main>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

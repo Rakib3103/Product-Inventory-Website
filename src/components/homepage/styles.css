@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    min-width: 200px;
+}
+
+.sidebar div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Active state for the sidebar items */
+.sidebar div.active {
+    background-color: #555;
+}
+
+/* Dashboard */
+.dashboard {
+    flex: 1;
+    padding: 20px;
+}
+
+.dashboard div {
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Calendar */
+.calendar {
+    background-color: #b3e0ff;
+}
+
+/* Reminder List */
+.reminder {
+    background-color: #ff8080;
+}
+
+/* Grocery List */
+.grocery {
+    background-color: #b3ffb3;
+}
+
+/* Products */
+.products {
+    background-color: #ffff99;
+}
+
+/* styles.css */
+
+/* Add your existing CSS rules here */
+
+.sidebar {
+  background-color: #4CAF50; /* Change this color to your desired sidebar background color */
+  color: #fff; /* Change this color to your desired text color */
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar div {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sidebar div:hover {
+  background-color: #45a049; /* Change this color to your desired hover background color */
+}
+
+/* Add your custom CSS styling here */
+
+/* ... (existing styles) ... */
+
+/* Styles for the small calendar */
+.calendar-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.small-calendar {
+    display: flex;
+    align-items: center;
+    background-color: #3498db;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.current-date {
+    color: #fff;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.prev,
+.next {
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.prev:hover,
+.next:hover {
+    background-color: #1f6696;
+}
