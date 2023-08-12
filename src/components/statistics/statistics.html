@@ -1,0 +1,51 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div>
+    <canvas id="pieChart"></canvas>
+    <canvas id="graphChart"></canvas>
+  </div>
+
+  <script>
+    fetch('/data')
+      .then(res => res.json())
+      .then(data => {
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        const ctxGraph = document.getElementById('graphChart').getContext('2d');
+
+        new Chart(ctxPie, {
+          type: 'pie',
+          data: {
+            labels: data.pieData.map(d => d.label),
+            datasets: [{
+              data: data.pieData.map(d => d.value),
+              backgroundColor: ['red', 'blue', 'green', 'yellow'] // Add as many colors as needed
+            }]
+          }
+        });
+
+        new Chart(ctxGraph, {
+          type: 'line',
+          data: {
+            datasets: [{
+              label: 'Product Sales',
+              data: data.graphData,
+              borderColor: 'blue',
+              fill: false
+            }]
+          }
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
