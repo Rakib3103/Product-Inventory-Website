@@ -1,5 +1,4 @@
-import React, { useState } from 'react'; // Add useState here
-// import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Homepage from './components/homepage/homepage';
 import Login from './components/login/login';
@@ -11,14 +10,12 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <switch>
+        <Switch> {/* Notice the uppercase 'S' here */}
           <Route exact path = "/">
             {
               user && user._id
-              ? //These are Ternary Operators
-              <Homepage/> 
-              : //These are Ternary Operators
-              <Login setLoginUser = {setLoginUser}/>
+              ? <Homepage/> 
+              : <Login setLoginUser = {setLoginUser}/>
             }
           </Route>
           <Route path = "/login">
@@ -27,7 +24,7 @@ function App() {
           <Route path = "/register">
             <Register />
           </Route>
-        </switch>
+        </Switch>
       </Router>
     </div>
   );

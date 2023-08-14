@@ -6,11 +6,11 @@ import { useHistory } from "react-router-dom"
 const Register = () => {
     const history = useHistory()    
     const [user, setUser] = useState({
-        name: " ",
-        email:" ",
-        phone:" ",
-        password:" ",
-        reEnterPassword:" "
+        name: "",
+        email:"",
+        phone:"",
+        password:"",
+        reEnterPassword:""
     })
 
     const handleChange = e => {
@@ -25,7 +25,8 @@ const Register = () => {
         const { name, email, password, reEnterPassword } = user
         if (name && email && password && (password === reEnterPassword)){
             axios.post("http://localhost:9002/register", user)
-            .then( res => console.log(res) )
+            .then(res => console.log(res))
+            .catch(err => console.log(err)); // Handle error        
         } else{
             alert("Invalid Input")
         }
