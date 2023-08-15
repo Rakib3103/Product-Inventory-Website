@@ -8,6 +8,10 @@ const Homepage = () => {
     setNote(e.target.value);
   };
 
+  const navigateToStatistics = () => {
+    window.location.href = "statistics.html";
+  };
+
   return (
     <div className="homepage">
       <div className="header">
@@ -22,6 +26,7 @@ const Homepage = () => {
           value={note}
           onChange={handleNoteChange}
         />
+        <button onClick={navigateToStatistics}>View Statistics</button> {/* This is the new button */}
         <div className="button">Logout</div>
       </div>
     </div>
