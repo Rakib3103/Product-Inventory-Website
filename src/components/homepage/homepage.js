@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./homepage.css";
 
+
 const Homepage = () => {
   const [note, setNote] = useState("");
 
@@ -16,7 +17,7 @@ const Homepage = () => {
     <div className="homepage">
       <div className="header">
         <h1>This is my homepage</h1>
-        <div className="calendar">Calendar Component Here</div>
+        <div className="calendar">Calendar</div>
       </div>
       <h2>Welcome, User!</h2>
       <div className="content">
