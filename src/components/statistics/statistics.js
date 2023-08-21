@@ -1,44 +1,91 @@
-const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
-const app = express();
-const port = 3000;
+import React, { useEffect } from 'react';
+import Chart from 'chart.js/auto';
+import './statistics.css';  // Assuming you have a Statistics.css file in the same directory
 
-const dbURL = 'your-database-url';
+function Statistics() {
+    useEffect(() => {
+        function randomData(min, max, length) {
+            return Array.from({ length }, () => Math.floor(Math.random() * (max - min + 1)) + min);
+        }
 
-app.use(express.static('public'));
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: randomData(1, 100, 3),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                    label: 'Dataset 1'
+                }],
+                labels: ['Electronics', 'Clothing', 'Groceries']
+            }
+        });
 
-app.get('/data', async (req, res) => {
-  MongoClient.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error connecting to the database.');
-      return;
-    }
+        const ctxExpenditure = document.getElementById('expenditureChart').getContext('2d');
+        new Chart(ctxExpenditure, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Expenditure',
+                    borderColor: '#FF6384',
+                    data: randomData(100, 1000, 5)
+                }]
+            }
+        });
 
-    const db = client.db('products');
-    const collection = db.collection('product-details');
+        const ctxMonthlyExpenditure = document.getElementById('monthlyExpenditureChart').getContext('2d');
+        new Chart(ctxMonthlyExpenditure, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Monthly Expenditure',
+                    borderColor: '#36A2EB',
+                    data: randomData(200, 1200, 5)
+                }]
+            }
+        });
 
-    collection.find({}).toArray((err, products) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error fetching data.');
-        return;
-      }
+        const ctxInventory = document.getElementById('inventoryChart').getContext('2d');
+        new Chart(ctxInventory, {
+            type: 'bar',
+            data: {
+                labels: ['Laptops', 'T-Shirts', 'Apples'],
+                datasets: [{
+                    label: 'Inventory',
+                    backgroundColor: '#FFCE56',
+                    borderColor: '#FFCE56',
+                    data: randomData(10, 500, 3)
+                }]
+            }
+        });
+    }, []);
 
-      // Transform products into desired data format for charts
-      let pieData = [];
-      let graphData = [];
-      products.forEach(product => {
-        pieData.push({ label: product.name, value: product.quantity });
-        graphData.push({ x: product.name, y: product.sales });
-      });
+    return (
+        <div className="chart-container">
+            <div className="chart-wrapper">
+                <h1>Category of Products</h1>
+                <canvas id="pieChart"></canvas>
+            </div>
+    
+            <div className="chart-wrapper">
+                <h1>Expenditure Chart</h1>
+                <canvas id="expenditureChart"></canvas>
+            </div>
+    
+            <div className="chart-wrapper">
+                <h1>Monthly Expenditure Goal</h1>
+                <canvas id="monthlyExpenditureChart"></canvas>
+            </div>
+    
+            <div className="chart-wrapper">
+                <h1>Product Inventory</h1>
+                <canvas id="inventoryChart"></canvas>
+            </div>
+        </div>
+    );
+    
+}
 
-      res.json({ pieData, graphData });
-      client.close();
-    });
-  });
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+export default Statistics;

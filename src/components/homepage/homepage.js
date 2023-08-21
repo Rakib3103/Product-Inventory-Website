@@ -9,7 +9,7 @@ const Homepage = () => {
   };
 
   const navigateToStatistics = () => {
-    window.location.href = "statistics.html";
+    window.location.href = "/statistics";
   };
 
   return (
