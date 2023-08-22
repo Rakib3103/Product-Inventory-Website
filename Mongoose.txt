@@ -1,2 +1,11 @@
 #Mongoose Connect
 https://mongoosejs.com/docs/connections.html
+
+
+# --------------------------- Upload CSV to MongoDB -------------------------------------------------------
+# Install MongoDB Command Line Database Tools Download from below link: (Choose package:msi)
+# https://www.mongodb.com/try/download/database-tools
+# Run the following command:
+# mongoimport --uri <MONGODBURL>/<DATABASE> --collection <COLLECTION> --type CSV --file <FILENAME> --headerline
+# Example:
+# mongoimport --uri mongodb+srv://mollahmdsaif:mollahmdsaif@cluster0.mwhzrc9.mongodb.net/test --collection users --type CSV --file data.csv --headerline
