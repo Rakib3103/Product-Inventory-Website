@@ -1,125 +1,128 @@
+/* Reset some default browser styles */
+body, h1, h2, ul, p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Add a background color to the whole page */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  background-color: #f3f4f6;
+  font-family: Arial, sans-serif;
 }
 
+/* Container for all content */
 .container {
-    display: flex;
+  display: flex;
 }
 
-/* Sidebar */
+/* Sidebar styles */
 .sidebar {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    min-width: 200px;
-}
-
-.sidebar div {
-    padding: 10px;
-    cursor: pointer;
-}
-
-/* Active state for the sidebar items */
-.sidebar div.active {
-    background-color: #555;
-}
-
-/* Dashboard */
-.dashboard {
-    flex: 1;
-    padding: 20px;
-}
-
-.dashboard div {
-    background-color: #f2f2f2;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-/* Calendar */
-.calendar {
-    background-color: #b3e0ff;
-}
-
-/* Reminder List */
-.reminder {
-    background-color: #ff8080;
-}
-
-/* Grocery List */
-.grocery {
-    background-color: #b3ffb3;
-}
-
-/* Products */
-.products {
-    background-color: #ffff99;
-}
-
-/* styles.css */
-
-/* Add your existing CSS rules here */
-
-.sidebar {
-  background-color: #4CAF50; /* Change this color to your desired sidebar background color */
-  color: #fff; /* Change this color to your desired text color */
+  background-color: #343a40;
+  color: #fff;
   padding: 20px;
+  width: 220px;
+  min-height: 100vh;  /* Full-screen height */
 }
 
 .sidebar h2 {
   margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .sidebar div {
-  padding: 10px;
+  padding: 15px;
+  margin: 5px 0;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .sidebar div:hover {
-  background-color: #45a049; /* Change this color to your desired hover background color */
+  background-color: #495057;
 }
 
-/* Add your custom CSS styling here */
+/* Dashboard styles */
+.dashboard {
+  flex: 1;
+  padding: 20px;
+  margin-left: 240px;
+}
 
-/* ... (existing styles) ... */
+/* Header within Dashboard */
+.dashboard header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-/* Styles for the small calendar */
+/* Logout button at top-right corner */
+.logout-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+/* View statistics button */
+.view-statistics-button {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-statistics-button:hover {
+  background-color: #0056b3;
+}
+
+/* Calendar styles */
 .calendar-container {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
+  background-color: #f3f4f6;
 }
 
-.small-calendar {
-    display: flex;
-    align-items: center;
-    background-color: #3498db;
-    border-radius: 5px;
-    padding: 5px;
+/* General styling for div sections */
+.dashboard div {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-.current-date {
-    color: #fff;
-    font-weight: bold;
-    margin: 0 10px;
+/* Style for buttons */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.prev,
-.next {
-    background-color: #2980b9;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
+button:hover {
+  background-color: #0056b3;
 }
 
-.prev:hover,
-.next:hover {
-    background-color: #1f6696;
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
 }
