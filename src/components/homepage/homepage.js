@@ -5,6 +5,43 @@ const Homepage = () => {
   // Existing State Management and Handlers
   const [note, setNote] = useState("");
   const [products, setProducts] = useState([]);
+  const [groceries, setGroceries] = useState([]);
+
+  // Fetch groceries on component mount
+  useEffect(() => {
+    fetch('http://localhost:9002/getGroceries')
+      .then(res => res.json())
+      .then(data => {
+        setGroceries(data);
+      })
+      .catch(err => console.error('Error fetching groceries:', err));
+  }, []);
+
+  const handleAddGrocery = () => {
+    const grocery = document.getElementById('grocery-input').value;
+
+    fetch('http://localhost:9002/addGrocery', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ grocery }),
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json(); 
+        } else {
+          throw new Error('Failed to add grocery');
+        }
+      })
+      .then(data => {
+        setGroceries([...groceries, data.grocery]);
+      })
+      .catch(err => {
+        console.error('Error adding grocery:', err);
+        // Handle error
+      });
+  };
 
   useEffect(() => {
     fetch('http://localhost:9002/getProducts')
@@ -78,15 +115,17 @@ const Homepage = () => {
 
 
         <div className="grocery">
-          <h2>Grocery List</h2>
-          <div className="Add-Grocery-List">
-            <input type="text" id="grocery-input" placeholder="Add here" />
-            <button onClick={() => console.log('Add Grocery')}>Add Grocery</button>
-          </div>
-          <ul id="grocery-list">
-            {/* The grocery list items will be added dynamically using JavaScript */}
-          </ul>
+        <h2>Grocery List</h2>
+        <div className="Add-Grocery-List">
+          <input type="text" id="grocery-input" placeholder="Add here" />
+          <button onClick={handleAddGrocery}>Add Grocery</button>
         </div>
+        <ul id="grocery-list">
+          {groceries.map((grocery, index) => (
+            <li key={index}>{grocery}</li>
+          ))}
+        </ul>
+      </div>
 
         <div className="products">
           <h2>Products</h2>

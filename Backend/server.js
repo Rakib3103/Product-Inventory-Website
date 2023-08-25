@@ -133,6 +133,32 @@ app.get('/getCategories', async (req, res) => {
 });
 
 
+
+
+
+// Assuming you have this Mongoose schema for groceries
+const grocerySchema = new mongoose.Schema({
+  item: String,
+});
+const Grocery = mongoose.model('Grocery', grocerySchema);
+
+// Add grocery route
+app.post('/addGrocery', async (req, res) => {
+  const { item } = req.body;
+
+  const grocery = new Grocery({
+    item,
+  });
+
+  try {
+    await grocery.save();
+    res.json({ message: 'Grocery added', grocery: grocery });
+  } catch (error) {
+    console.error('Error adding grocery:', error);
+    res.status(500).json({ message: 'An error occurred while adding the grocery' });
+  }
+});
+
 app.listen(9002, () => {
   console.log("BE started at port 9002");
 });
