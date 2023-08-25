@@ -1,22 +1,59 @@
-import React, { useState } from 'react';
-import './styles.css';  // Make sure you have a file named homepage.css in the same directory for styling.
+import React, { useState, useEffect } from 'react';
+import './styles.css';
 
 const Homepage = () => {
   // Existing State Management and Handlers
   const [note, setNote] = useState("");
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:9002/getProducts')
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+      })
+      .catch(err => console.error('Error fetching products:', err));
+  }, []);
 
   const handleNoteChange = (e) => {
     setNote(e.target.value);
   };
 
+  const handleAddProduct = () => {
+    const productName = document.getElementById('product-name').value;
+    const expiryDate = document.getElementById('expiry-date').value;
+    const quantity = document.getElementById('quantity').value;
+    const category = document.getElementById('category').value;
+  
+    fetch('http://localhost:9002/addProduct', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productName, expiryDate, quantity, category }),
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json(); // Parse JSON only when the response is successful
+        } else {
+          throw new Error('Failed to add product');
+        }
+      })
+      .then(data => {
+        setProducts([...products, data.product]); // Update products with the newly added product
+      })
+      .catch(err => {
+        console.error('Error adding product:', err);
+        // Handle the error, e.g., display an error message to the user
+      });
+  };
   const navigateToStatistics = () => {
     window.location.href = "/statistics";
   };
+
   const navigateTologin = () => {
     window.location.href = "/login";
   };
-
-
 
   
 
@@ -57,15 +94,29 @@ const Homepage = () => {
             <input type="text" id="product-name" placeholder="Product Name" />
             <input type="date" id="expiry-date" />
             <input type="number" id="quantity" placeholder="Quantity" />
-            <button onClick={() => console.log('Add Product')}>Add Product</button>
+            <input type="text" id="category" placeholder="Category" />
+            <button onClick={handleAddProduct}>Add Product</button>
           </div>
+          
           <table id="product-table">
-            <tr>
-              <th>Product-Name</th>
-              <th>Expiry-Date</th>
-              <th>Quantity</th>
-              <th>Category</th>
-            </tr>
+          <thead>
+              <tr>
+                <th>Product-Name</th>
+                <th>Expiry-Date</th>
+                <th>Quantity</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product, index) => (
+                <tr key={index}>
+                  <td>{product.productName}</td>
+                  <td>{product.expiryDate}</td>
+                  <td>{product.quantity}</td>
+                  <td>{product.category}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
 
@@ -94,7 +145,7 @@ const Homepage = () => {
             onChange={handleNoteChange}
           />
           
-          {/* <button onClick={navigateTologin}>Logout</button> */}
+
         </div>
       </div>
     </div>

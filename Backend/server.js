@@ -30,6 +30,18 @@ const userSchema = new mongoose.Schema({
 
 const User = new mongoose.model("User", userSchema);
 
+
+
+// New Mongoose Models for Product
+const productSchema = new mongoose.Schema({
+  productName: String,
+  expiryDate: Date,
+  quantity: Number,
+  category: String,
+});
+
+const Product = new mongoose.model("Product", productSchema);
+
 // Defining routes
 //Login API
 app.post("/login", (req, res) => {
@@ -80,7 +92,46 @@ app.post("/login", (req, res) => {
         res.status(500).send({ message: "An error occurred" });
       });
   });
+  // New Routes for Product Management
+// Update the addProduct route
+  app.post('/addProduct', async (req, res) => {
+    const { productName, expiryDate, quantity, category } = req.body;
+
+    const product = new Product({
+      productName,
+      expiryDate,
+      quantity,
+      category,
+    });
+
+    try {
+      await product.save();
+      res.json({ message: 'Product added', product: product }); // Respond with JSON
+    } catch (error) {
+      console.error('Error adding product:', error);
+      res.status(500).json({ message: 'An error occurred while adding the product' }); // Respond with JSON
+    }
+  });
+
+
+// Get all Products API
+app.get('/getProducts', async (req, res) => {
+  const products = await Product.find();
+  res.json(products);
+});
   
+// Add this new route for fetching product categories
+app.get('/getCategories', async (req, res) => {
+  try {
+    const categories = await Product.aggregate([
+      { $group: { _id: '$category', count: { $sum: 1 } } }
+    ]);
+    res.json(categories);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 
 app.listen(9002, () => {
   console.log("BE started at port 9002");
