@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import multer from 'multer';
+import csvParser from 'csv-parser';
 
 const app = express();
 app.use(express.json());
@@ -8,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 mongoose
-  .connect("mongodb+srv://mazharulislamrakib:mongodb31032001@productinventory.5hps189.mongodb.net/", {
+  .connect("mongodb+srv://mollahmdsaif:mollahmdsaif@cluster0.mwhzrc9.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -41,6 +43,10 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = new mongoose.model("Product", productSchema);
+
+const Data = mongoose.model('Data', productSchema);
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Defining routes
 //Login API
@@ -156,6 +162,22 @@ app.post('/addGrocery', async (req, res) => {
   } catch (error) {
     console.error('Error adding grocery:', error);
     res.status(500).json({ message: 'An error occurred while adding the grocery' });
+  }
+});
+
+app.post('/api/upload-csv', upload.single('csv'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No CSV file provided' });
+  }
+
+  const bufferString = req.file.buffer.toString();
+  const parsedData = await csvParser().fromString(bufferString);
+
+  try {
+    await Data.insertMany(parsedData);
+    res.status(200).send();
+  } catch (error) {
+    res.status(500).json({ error: 'Error uploading data' });
   }
 });
 

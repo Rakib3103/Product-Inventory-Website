@@ -88,6 +88,10 @@ const Homepage = () => {
     window.location.href = "/statistics";
   };
 
+  const navigateToData = () => {
+    window.location.href = "/data";
+  }
+
   const navigateTologin = () => {
     window.location.href = "/login";
   };
@@ -103,6 +107,7 @@ const Homepage = () => {
         <div className="inbox" onClick={() => console.log('Inbox clicked')}>Inbox</div>
         <div className="category" onClick={() => console.log('Category clicked')}>Category</div>
         <div className="settings" onClick={() => console.log('Settings clicked')}>Settings</div>
+        <div className="data" onClick={navigateToData}>Data</div>
       </aside>
 
       {/* Dashboard */}
