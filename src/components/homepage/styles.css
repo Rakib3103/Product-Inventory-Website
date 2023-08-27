@@ -141,6 +141,50 @@ th {
   height: 200px; /* Set the height */
 }
 
+/* Add the calendar styles */
+.calendar {
+  display: inline-block;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 300px;
+}
+
+.month ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+.month li {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.weekdays {
+  margin: 10px 0;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.days {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.days li {
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
 
 
 
