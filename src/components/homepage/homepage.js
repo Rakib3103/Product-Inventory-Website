@@ -61,13 +61,14 @@ const Homepage = () => {
     const expiryDate = document.getElementById('expiry-date').value;
     const quantity = document.getElementById('quantity').value;
     const category = document.getElementById('category').value;
+    const cost = document.getElementById('cost').value;
   
     fetch('http://localhost:9002/addProduct', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ productName, expiryDate, quantity, category }),
+      body: JSON.stringify({ productName, expiryDate, quantity, category, cost }),
     })
       .then(res => {
         if (res.ok) {
@@ -92,6 +93,30 @@ const Homepage = () => {
     window.location.href = "/login";
   };
 
+  const handleSaveNote = () => {
+    fetch('http://localhost:9002/saveNote', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content: note }),
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json(); 
+      } else {
+        throw new Error('Failed to save note');
+      }
+    })
+    .then(data => {
+      console.log('Note saved:', data.note);
+    })
+    .catch(err => {
+      console.error('Error saving note:', err);
+      // Handle the error, e.g., display an error message to the user
+    });
+  };
+
   
 
   // Rendered JSX
@@ -100,7 +125,7 @@ const Homepage = () => {
       {/* Sidebar */}
       <aside className="sidebar">
         <h2>SIDEBAR</h2>
-        <div className="inbox" onClick={() => console.log('Inbox clicked')}>Inbox</div>
+        <div className="inbox" onClick={() => window.location.href = "/inbox"}>Inbox</div>
         <div className="category" onClick={() => console.log('Category clicked')}>Category</div>
         <div className="settings" onClick={() => console.log('Settings clicked')}>Settings</div>
       </aside>
@@ -134,6 +159,7 @@ const Homepage = () => {
             <input type="date" id="expiry-date" />
             <input type="number" id="quantity" placeholder="Quantity" />
             <input type="text" id="category" placeholder="Category" />
+            <input type='number' id="cost" placeholder="Cost" />
             <button onClick={handleAddProduct}>Add Product</button>
           </div>
           
@@ -144,6 +170,7 @@ const Homepage = () => {
                 <th>Expiry-Date</th>
                 <th>Quantity</th>
                 <th>Category</th>
+                <th>Cost</th>
               </tr>
             </thead>
             <tbody>
@@ -153,6 +180,7 @@ const Homepage = () => {
                   <td>{product.expiryDate}</td>
                   <td>{product.quantity}</td>
                   <td>{product.category}</td>
+                  <td>{product.cost}</td>
                 </tr>
               ))}
             </tbody>
@@ -176,15 +204,14 @@ const Homepage = () => {
         <div className="header">
 
         </div>
-        <div className="content">
+        <div className="notepad-container">
           <textarea
             className="notepad"
             placeholder="Write your notes here..."
             value={note}
             onChange={handleNoteChange}
           />
-          
-
+          <button onClick={handleSaveNote}>Save Note</button>
         </div>
       </div>
     </div>

@@ -38,6 +38,7 @@ const productSchema = new mongoose.Schema({
   expiryDate: Date,
   quantity: Number,
   category: String,
+  cost: Number,
 });
 
 const Product = new mongoose.model("Product", productSchema);
@@ -95,13 +96,14 @@ app.post("/login", (req, res) => {
   // New Routes for Product Management
 // Update the addProduct route
   app.post('/addProduct', async (req, res) => {
-    const { productName, expiryDate, quantity, category } = req.body;
+    const { productName, expiryDate, quantity, category, cost } = req.body;
 
     const product = new Product({
       productName,
       expiryDate,
       quantity,
       category,
+      cost,
     });
 
     try {
@@ -158,6 +160,42 @@ app.post('/addGrocery', async (req, res) => {
     res.status(500).json({ message: 'An error occurred while adding the grocery' });
   }
 });
+
+// New Mongoose Model for Notes
+const noteSchema = new mongoose.Schema({
+  content: String,
+  userId: mongoose.Schema.Types.ObjectId, // assuming each note is associated with a user
+});
+
+const Note = mongoose.model('Note', noteSchema);
+
+app.post('/saveNote', async (req, res) => {
+  const { content, userId } = req.body;
+
+  const note = new Note({
+    content,
+    userId,
+  });
+
+  try {
+    await note.save();
+    res.json({ message: 'Note added', note: note });
+  } catch (error) {
+    console.error('Error adding note:', error);
+    res.status(500).json({ message: 'An error occurred while adding the note' });
+  }
+});
+
+app.get('/getNotes', async (req, res) => {
+  try {
+    const notes = await Note.find({});
+    res.json(notes);
+  } catch (error) {
+    console.error('Error fetching notes:', error);
+    res.status(500).json({ message: 'An error occurred while fetching notes' });
+  }
+});
+
 
 app.listen(9002, () => {
   console.log("BE started at port 9002");

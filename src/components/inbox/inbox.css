@@ -1,0 +1,20 @@
+/* Inbox.css */
+
+.inbox-container {
+    padding: 20px;
+  }
+  
+  .note-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .note-list li {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
