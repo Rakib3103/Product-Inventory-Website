@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import multer from 'multer';
-import csvParser from 'csv-parser';
+import fs from 'fs';
+import multer from "multer";
+
 
 const app = express();
 app.use(express.json());
@@ -20,6 +21,17 @@ mongoose
   .catch((err) => {
     console.error("Database Connection Error:", err);
   });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads'); // Store uploaded files in the "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 
 // Mongoose Models
@@ -44,9 +56,14 @@ const productSchema = new mongoose.Schema({
 
 const Product = new mongoose.model("Product", productSchema);
 
-const Data = mongoose.model('Data', productSchema);
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+// const dataSchema = new mongoose.Schema({
+//   productName: String,
+//   expiryDate: Date,
+//   quantity: Number,
+//   category: String,
+// });
+//
+// const DataModel = mongoose.model('Product', dataSchema);
 
 // Defining routes
 //Login API
@@ -139,9 +156,6 @@ app.get('/getCategories', async (req, res) => {
 });
 
 
-
-
-
 // Assuming you have this Mongoose schema for groceries
 const grocerySchema = new mongoose.Schema({
   item: String,
@@ -165,21 +179,40 @@ app.post('/addGrocery', async (req, res) => {
   }
 });
 
-app.post('/api/upload-csv', upload.single('csv'), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'No CSV file provided' });
-  }
 
-  const bufferString = req.file.buffer.toString();
-  const parsedData = await csvParser().fromString(bufferString);
-
+// download json from mongodb
+app.get('/download-data', async (req, res) => {
   try {
-    await Data.insertMany(parsedData);
-    res.status(200).send();
+    const items = await Product.find();
+
+    const filePath = 'downloaded-data.json';
+    fs.writeFileSync(filePath, JSON.stringify(items, null, 2));
+
+    res.download(filePath, 'downloaded-data.json', (err) => {
+      if (err) {
+        res.status(500).json({ error: 'An error occurred while downloading data' });
+      }
+      fs.unlinkSync(filePath);
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Error uploading data' });
+    res.status(500).json({ error: 'An error occurred' });
   }
 });
+
+app.post('/api/upload', upload.single('jsonFile'), async (req, res) => {
+  try {
+    const filePath = req.file.path;
+    const fileData = fs.readFileSync(filePath, 'utf-8');
+    const jsonData = JSON.parse(fileData);
+
+    const result = await Product.create(jsonData);
+    res.json({ message: 'JSON file uploaded and data saved', data: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error uploading JSON file', error: error.message });
+  }
+});
+
 
 app.listen(9002, () => {
   console.log("BE started at port 9002");

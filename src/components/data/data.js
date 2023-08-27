@@ -1,36 +1,54 @@
+// DownloadData.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function Data() {
-  const [csvFile, setCSVFile] = useState(null);
-  const [message, setMessage] = useState('');
+const Data = () => {
+    const [file, setFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    setCSVFile(event.target.files[0]);
-  };
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
 
-  const handleUpload = async () => {
-    if (csvFile) {
-      const formData = new FormData();
-      formData.append('csv', csvFile);
+    const handleDownload = async () => {
+        try {
+            await axios.get('http://localhost:9002/download-data', { responseType: 'blob' }).then((response) => {
+                const blob = new Blob([response.data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'downloaded-data.json';
+                a.click();
+            });
+        } catch (error) {
+            console.error('Error downloading data', error);
+        }
+    };
+    const handleUpload = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('jsonFile', file);
 
-      try {
-        await axios.post('/api/upload-csv', formData);
-        setMessage('CSV file uploaded successfully.');
-      } catch (error) {
-        setMessage('Error uploading CSV file.')
-        setMessage(error.message)
-      }
-    }
-  };
+            const response = await axios.post('http://localhost:9002/api/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
 
-  return (
-      <div>
-        <input type="file" accept=".csv" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Upload CSV</button>
-        <p>{message}</p>
-      </div>
-  );
-}
+            console.log(response.data.message);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
+
+    return (
+        <div className="chart-container">
+            <div className="chart-wrapper">
+                <button onClick={handleDownload}>Download Data</button>
+            </div>
+            <div className="chart-wrapper">
+                <input type="file" accept=".json" onChange={handleFileChange} />
+                <button onClick={handleUpload}>Upload File</button>
+            </div>
+        </div>
+    );
+};
 
 export default Data;
