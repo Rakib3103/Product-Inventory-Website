@@ -162,7 +162,7 @@ app.post('/addGrocery', async (req, res) => {
 app.get('/getGroceries', async (req, res) => {
   try {
     const groceries = await Grocery.find({});
-    res.json(groceries);
+    res.json(grocery);
   } catch (err) {
     console.error('Error fetching groceries:', err);
     res.status(500).json({ message: 'An error occurred while fetching groceries' });
@@ -203,6 +203,32 @@ app.get('/getNotes', async (req, res) => {
     res.status(500).json({ message: 'An error occurred while fetching notes' });
   }
 });
+
+
+// Delete grocery
+app.delete('/deleteGrocery/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Grocery.findByIdAndDelete(id);
+    res.json({ message: 'Grocery deleted' });
+  } catch (error) {
+    console.error('Error deleting grocery:', error);
+    res.status(500).json({ message: 'An error occurred while deleting the grocery' });
+  }
+});
+
+// Delete product
+app.delete('/deleteProduct/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Product.findByIdAndDelete(id);
+    res.json({ message: 'Product deleted' });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'An error occurred while deleting the product' });
+  }
+});
+
 
 
 app.listen(9002, () => {

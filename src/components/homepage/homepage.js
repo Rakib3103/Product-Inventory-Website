@@ -9,16 +9,17 @@ const Homepage = () => {
   const [groceryInput, setGroceryInput] = useState("");
 
 
+
+  
   const handleAddGrocery = () => {
-    const grocery = document.getElementById('grocery-input').value;
-    // const grocery = groceryInput;
+    // const grocery = document.getElementById('grocery-input').value;
 
     fetch('http://localhost:9002/addGrocery', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ grocery }),
+      body: JSON.stringify({ grocery: groceryInput }), // use the state variable directly
     })
       .then(res => {
         if (res.ok) {
@@ -33,12 +34,11 @@ const Homepage = () => {
       })
       .catch(err => {
         console.error('Error adding grocery:', err);
-        // Handle error
       });
   };
 
 
-    // Fetch groceries on component mount
+    // Fetch groceries
     useEffect(() => {
       fetch('http://localhost:9002/getGroceries')
         .then(res => res.json())
@@ -49,6 +49,8 @@ const Homepage = () => {
         .catch(err => console.error('Error fetching groceries:', err));
     }, []);
 
+
+    //Fetch Products
   useEffect(() => {
     fetch('http://localhost:9002/getProducts')
       .then(res => res.json())
@@ -78,17 +80,16 @@ const Homepage = () => {
     })
       .then(res => {
         if (res.ok) {
-          return res.json(); // Parse JSON only when the response is successful
+          return res.json(); 
         } else {
           throw new Error('Failed to add product');
         }
       })
       .then(data => {
-        setProducts([...products, data.product]); // Update products with the newly added product
+        setProducts([...products, data.product]); 
       })
       .catch(err => {
         console.error('Error adding product:', err);
-        // Handle the error, e.g., display an error message to the user
       });
   };
   const navigateToStatistics = () => {
@@ -123,6 +124,34 @@ const Homepage = () => {
     });
   };
 
+  const handleDeleteGrocery = () => {
+    fetch('http://localhost:9002/deleteAllGroceries', {
+      method: 'DELETE',
+    })
+      .then(() => {
+        setGroceries([]); // Clear the groceries array in the client
+      })
+      .catch(err => {
+        console.error('Error deleting groceries:', err);
+      });
+  };
+  
+
+  const handleDeleteProduct = () => {
+    fetch('http://localhost:9002/deleteAllProduct', {
+      method: 'DELETE',
+    })
+      .then(() => {
+        setProducts([]); // Clear the products array in the client
+      })
+      .catch(err => {
+        console.error('Error deleting Products:', err);
+      });
+  };
+  
+  
+  
+  
   
 
   // Rendered JSX
@@ -148,9 +177,11 @@ const Homepage = () => {
       <div className="grocery">
         <h2>Grocery List</h2>
         <div className="Add-Grocery-List">
-          <input type="text" value={groceryInput} onChange={e => setGroceryInput(e.target.value)} placeholder="Add here" />
+          {/* <input type="text" value={groceryInput} onChange={e => setGroceryInput(e.target.value)} placeholder="Add here" /> */}
+          <input type='text' value={groceryInput} onChange={e => setGroceryInput(e.target.value)} placeholder="Add here" />
           {/* <input type='text' id="grocery-input" placeholder="Add here" /> */}
           <button onClick={handleAddGrocery}>Add Grocery</button>
+          <button onClick={() => handleDeleteGrocery(groceries)}>Delete Groceries</button>
         </div>
         <table id="grocery-list">
           <thead>
@@ -161,8 +192,8 @@ const Homepage = () => {
           <tbody>
             {groceries.map((grocery, index) => (
               <tr key={index}>
-                {/* <td>{index + 1}</td> */}
-                <td>{grocery.item}</td> {/* Access item property here */}
+                <td>{grocery.item}</td>
+                
               </tr>
             ))}
           </tbody>
@@ -178,8 +209,13 @@ const Homepage = () => {
             <input type="text" id="category" placeholder="Category" />
             <input type='number' id="cost" placeholder="Cost" />
             <button onClick={handleAddProduct}>Add Product</button>
+            <button onClick={handleDeleteProduct}>Delete Product</button>
           </div>
           
+
+          {/* -------------------------------------------------------------------------------------------- 
+          |                                         Product Table                                         |
+          ------------------------------------------------------------------------------------------------ */}
           <table id="product-table">
           <thead>
               <tr>
@@ -204,6 +240,10 @@ const Homepage = () => {
           </table>
         </div>
 
+
+          {/* -------------------------------------------------------------------------------------------- 
+          |                                         Reminder                                             |
+          ------------------------------------------------------------------------------------------------ */}
         <div className="reminder">
           <h2>Reminder List</h2>
           <div className="Add-reminder">
@@ -211,10 +251,13 @@ const Homepage = () => {
             <button onClick={() => console.log('Add Reminder')}>Add Reminder</button>
           </div>
           <ul id="reminder-list">
-            {/* The reminder items will be added dynamically using JavaScript */}
           </ul>
         </div>
       </main>
+
+          {/* -------------------------------------------------------------------------------------------- 
+          |                                         Notepad                                              |
+          ------------------------------------------------------------------------------------------------ */}      
 
       {/* Original Homepage JSX */}
       <div className="homepage">
