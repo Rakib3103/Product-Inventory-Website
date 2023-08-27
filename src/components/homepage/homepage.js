@@ -264,10 +264,11 @@ const Homepage = () => {
             </tr>
           </thead>
           <tbody>
-            {groceries.map((grocery, index) => (
+            {/* {groceries.map((grocery, index) => ( */}
+            {Array.isArray(groceries) && groceries.map((grocery, index) => (
               <tr key={index}>
                 <td>{grocery.item}</td>
-                
+
               </tr>
             ))}
           </tbody>
