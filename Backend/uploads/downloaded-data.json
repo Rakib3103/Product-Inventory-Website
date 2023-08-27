@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "64ebb7e0bd977d3b84b95d7c",
+    "productName": "P-1",
+    "expiryDate": "2023-08-23T00:00:00.000Z",
+    "quantity": 1,
+    "category": "C-1",
+    "cost": 12,
+    "__v": 0
+  },
+  {
+    "_id": "64ebb7fcbd977d3b84b95d80",
+    "productName": "P-2",
+    "expiryDate": "2023-08-02T00:00:00.000Z",
+    "quantity": 2,
+    "category": "C-1",
+    "cost": 2312,
+    "__v": 0
+  },
+  {
+    "_id": "64ebb804bd977d3b84b95d82",
+    "productName": "P-3",
+    "expiryDate": "2023-08-16T00:00:00.000Z",
+    "quantity": 2,
+    "category": "C-2",
+    "cost": 32,
+    "__v": 0
+  }
+]

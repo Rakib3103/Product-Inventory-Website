@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 mongoose
-  .connect("mongodb+srv://mazharulislamrakib:mongodb31032001@productinventory.5hps189.mongodb.net/", {
+  .connect("mongodb+srv://mollahmdsaif:mollahmdsaif@cluster0.mwhzrc9.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -46,7 +46,7 @@ const User = new mongoose.model("User", userSchema);
 
 
 
-// New Mongoose Models for Product
+// New Mongoose Models for product
 const productSchema = new mongoose.Schema({
   productName: String,
   expiryDate: Date,
@@ -55,7 +55,7 @@ const productSchema = new mongoose.Schema({
   cost: Number,
 });
 
-const Product = new mongoose.model("Product", productSchema);
+const Product = new mongoose.model("product", productSchema);
 
 // const dataSchema = new mongoose.Schema({
 //   productName: String,
@@ -64,7 +64,7 @@ const Product = new mongoose.model("Product", productSchema);
 //   category: String,
 // });
 //
-// const DataModel = mongoose.model('Product', dataSchema);
+// const DataModel = mongoose.model('product', dataSchema);
 
 // Defining routes
 //Login API
@@ -116,7 +116,7 @@ app.post("/login", (req, res) => {
         res.status(500).send({ message: "An error occurred" });
       });
   });
-  // New Routes for Product Management
+  // New Routes for product Management
 // Update the addProduct route
   app.post('/addProduct', async (req, res) => {
     const { productName, expiryDate, quantity, category, cost } = req.body;
@@ -131,7 +131,7 @@ app.post("/login", (req, res) => {
 
     try {
       await product.save();
-      res.json({ message: 'Product added', product: product }); // Respond with JSON
+      res.json({ message: 'product added', product: product }); // Respond with JSON
     } catch (error) {
       console.error('Error adding product:', error);
       res.status(500).json({ message: 'An error occurred while adding the product' }); // Respond with JSON
@@ -182,7 +182,7 @@ app.post('/addGrocery', async (req, res) => {
 app.get('/getGroceries', async (req, res) => {
   try {
     const groceries = await Grocery.find({});
-    res.json(grocery);
+    res.json(groceries);
   } catch (err) {
     console.error('Error fetching groceries:', err);
     res.status(500).json({ message: 'An error occurred while fetching groceries' });
@@ -242,7 +242,7 @@ app.delete('/deleteProduct/:id', async (req, res) => {
   try {
     const id = req.params.id;
     await Product.findByIdAndDelete(id);
-    res.json({ message: 'Product deleted' });
+    res.json({ message: 'product deleted' });
   } catch (error) {
     console.error('Error deleting product:', error);
     res.status(500).json({ message: 'An error occurred while deleting the product' });
@@ -282,6 +282,17 @@ app.post('/api/upload', upload.single('jsonFile'), async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error uploading JSON file', error: error.message });
+  }
+});
+
+
+app.get('/api/items', async (req, res) => {
+  try {
+    const items = await Product.find();
+    res.json(items);
+  } catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'An error occurred while fetching items.' });
   }
 });
 

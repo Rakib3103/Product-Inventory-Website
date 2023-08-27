@@ -165,7 +165,7 @@ const Homepage = () => {
       <aside className="sidebar">
         <h2>SIDEBAR</h2>
         <div className="inbox" onClick={() => window.location.href = "/inbox"}>Inbox</div>
-        <div className="category" onClick={() => console.log('Category clicked')}>Category</div>
+        <div className="product" onClick={() => window.location.href = "/product"}>Product</div>
         <div className="settings" onClick={() => console.log('Settings clicked')}>Settings</div>
         <div className="data" onClick={navigateToData}>Data</div>
       </aside>
@@ -289,7 +289,7 @@ const Homepage = () => {
           
 
           {/* -------------------------------------------------------------------------------------------- 
-          |                                         Product Table                                         |
+          |                                         product Table                                         |
           ------------------------------------------------------------------------------------------------ */}
           <table id="product-table">
           <thead>

@@ -4,6 +4,7 @@ import './App.css';
 import Homepage from './components/homepage/homepage';
 import Login from './components/login/login';
 import Register from './components/register/register';
+import Product from './components/product/product';
 import Statistics from './components/statistics/statistics';  // New import for the Statistics component
 import Data from './components/data/data';  // New import for the Data component
 import Inbox from './components/inbox/inbox';  // Adjust this path as needed
@@ -52,6 +53,9 @@ function App() {
           </Route>
           <Route path="/inbox">
             <Inbox/>
+          </Route>
+          <Route path="/product">
+            <Product/>
           </Route>
         </Switch>
       </Router>
