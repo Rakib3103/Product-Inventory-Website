@@ -20,6 +20,11 @@ function Statistics() {
       .catch(err => console.error('Error fetching products:', err));
   }, []);
 
+  // Calculate total expenditure
+  const totalExpenditure = products.reduce((acc, product) => {
+    return acc + product.cost;
+  }, 0);
+
   const createNewChart = (ref, config) => {
     if (ref.current) {
       ref.current.destroy();
@@ -63,15 +68,15 @@ function Statistics() {
       context: document.getElementById('inventoryChart').getContext('2d')
     });
 
-    // Your original charts
+    // Update the data for the expenditure chart
     createNewChart(expenditureChartRef, {
       type: 'line',
       data: {
         labels: ['January', 'February', 'March', 'April', 'May'],
         datasets: [{
-          label: 'Expenditure',
-          borderColor: '#FF6384',
-          data: randomData(100, 1000, 5)
+          label: 'Total Expenditure',
+          borderColor: '#36A2EB',
+          data: [totalExpenditure, totalExpenditure, totalExpenditure, totalExpenditure, totalExpenditure],
         }]
       },
       context: document.getElementById('expenditureChart').getContext('2d')

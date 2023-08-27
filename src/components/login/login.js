@@ -29,6 +29,8 @@ const Login = ({ setLoginUser }) => {
   };
 
   return (
+    <div className="Header">
+      <h1>Product Inventory Website</h1>
     <div className="login">
       {console.log(user)}
       <h1>Login</h1>
@@ -37,6 +39,7 @@ const Login = ({ setLoginUser }) => {
       <div className="button" onClick={login}>Login</div>
       <div>or</div>
       <div className="button" onClick={() => history.push("/register")}>Register</div>
+    </div>
     </div>
   );
 };

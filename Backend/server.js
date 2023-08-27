@@ -52,6 +52,7 @@ const productSchema = new mongoose.Schema({
   expiryDate: Date,
   quantity: Number,
   category: String,
+  cost: Number,
 });
 
 const Product = new mongoose.model("Product", productSchema);
@@ -118,13 +119,14 @@ app.post("/login", (req, res) => {
   // New Routes for Product Management
 // Update the addProduct route
   app.post('/addProduct', async (req, res) => {
-    const { productName, expiryDate, quantity, category } = req.body;
+    const { productName, expiryDate, quantity, category, cost } = req.body;
 
     const product = new Product({
       productName,
       expiryDate,
       quantity,
       category,
+      cost,
     });
 
     try {
@@ -164,20 +166,90 @@ const Grocery = mongoose.model('Grocery', grocerySchema);
 
 // Add grocery route
 app.post('/addGrocery', async (req, res) => {
-  const { item } = req.body;
-
-  const grocery = new Grocery({
-    item,
+  const { grocery } = req.body;
+  const newGrocery = new Grocery({
+    item: grocery
   });
 
   try {
-    await grocery.save();
+    await newGrocery.save();
     res.json({ message: 'Grocery added', grocery: grocery });
   } catch (error) {
     console.error('Error adding grocery:', error);
     res.status(500).json({ message: 'An error occurred while adding the grocery' });
   }
 });
+app.get('/getGroceries', async (req, res) => {
+  try {
+    const groceries = await Grocery.find({});
+    res.json(grocery);
+  } catch (err) {
+    console.error('Error fetching groceries:', err);
+    res.status(500).json({ message: 'An error occurred while fetching groceries' });
+  }
+});
+
+// New Mongoose Model for Notes
+const noteSchema = new mongoose.Schema({
+  content: String,
+  userId: mongoose.Schema.Types.ObjectId, // assuming each note is associated with a user
+});
+
+const Note = mongoose.model('Note', noteSchema);
+
+app.post('/saveNote', async (req, res) => {
+  const { content, userId } = req.body;
+
+  const note = new Note({
+    content,
+    userId,
+  });
+
+  try {
+    await note.save();
+    res.json({ message: 'Note added', note: note });
+  } catch (error) {
+    console.error('Error adding note:', error);
+    res.status(500).json({ message: 'An error occurred while adding the note' });
+  }
+});
+
+app.get('/getNotes', async (req, res) => {
+  try {
+    const notes = await Note.find({});
+    res.json(notes);
+  } catch (error) {
+    console.error('Error fetching notes:', error);
+    res.status(500).json({ message: 'An error occurred while fetching notes' });
+  }
+});
+
+
+// Delete grocery
+app.delete('/deleteGrocery/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Grocery.findByIdAndDelete(id);
+    res.json({ message: 'Grocery deleted' });
+  } catch (error) {
+    console.error('Error deleting grocery:', error);
+    res.status(500).json({ message: 'An error occurred while deleting the grocery' });
+  }
+});
+
+// Delete product
+app.delete('/deleteProduct/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Product.findByIdAndDelete(id);
+    res.json({ message: 'Product deleted' });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'An error occurred while deleting the product' });
+  }
+});
+
+
 
 
 // download json from mongodb
