@@ -10,13 +10,8 @@ const Homepage = () => {
 
 
   const handleAddGrocery = () => {
-<<<<<<< HEAD
-    // const grocery = document.getElementById('grocery-input').value;
-    const grocery = groceryInput;
-=======
     const grocery = document.getElementById('grocery-input').value;
     // const grocery = groceryInput;
->>>>>>> 2c2a416 (Final)
 
     fetch('http://localhost:9002/addGrocery', {
       method: 'POST',
