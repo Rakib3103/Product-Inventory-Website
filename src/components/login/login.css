@@ -1,3 +1,12 @@
+.Header {
+    text-align: center;
+    /* padding: 20px 0; */
+    /* background-color: #343a40; */
+    /* color: rgb(6, 1, 1);
+    font-size: 2.5rem;
+    font-weight: bold; */
+}
+  
 .login{
     width: 400px;
     background: white;

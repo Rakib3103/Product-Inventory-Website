@@ -1,5 +1,5 @@
 // import './path/to/styles.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Homepage from './components/homepage/homepage';
 import Login from './components/login/login';
@@ -11,6 +11,21 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   const [ user, setLoginUser ] = useState({})
+
+  // Load the saved user information from local storage when the app starts
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setLoginUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  // Save user information to local storage whenever it changes
+  useEffect(() => {
+    if (user && user._id) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
 
   return (
     <div className="App">
