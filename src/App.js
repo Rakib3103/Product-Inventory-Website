@@ -49,6 +49,7 @@ function App() {
           </Route>
           <Route path="/data">  {/* New Route for Data */}
             <Data />
+          </Route>
           <Route path="/inbox">
             <Inbox/>
           </Route>
