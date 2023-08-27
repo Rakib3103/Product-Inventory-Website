@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import fs from 'fs';
+import multer from "multer";
+
 
 const app = express();
 app.use(express.json());
@@ -8,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 mongoose
-  .connect("mongodb+srv://mazharulislamrakib:mongodb31032001@productinventory.5hps189.mongodb.net/", {
+  .connect("mongodb+srv://mollahmdsaif:mollahmdsaif@cluster0.mwhzrc9.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -18,6 +21,17 @@ mongoose
   .catch((err) => {
     console.error("Database Connection Error:", err);
   });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads'); // Store uploaded files in the "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 
 // Mongoose Models
@@ -42,6 +56,15 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = new mongoose.model("Product", productSchema);
+
+// const dataSchema = new mongoose.Schema({
+//   productName: String,
+//   expiryDate: Date,
+//   quantity: Number,
+//   category: String,
+// });
+//
+// const DataModel = mongoose.model('Product', dataSchema);
 
 // Defining routes
 //Login API
@@ -135,9 +158,6 @@ app.get('/getCategories', async (req, res) => {
 });
 
 
-
-
-
 // Assuming you have this Mongoose schema for groceries
 const grocerySchema = new mongoose.Schema({
   item: String,
@@ -229,6 +249,41 @@ app.delete('/deleteProduct/:id', async (req, res) => {
   }
 });
 
+
+
+
+// download json from mongodb
+app.get('/download-data', async (req, res) => {
+  try {
+    const items = await Product.find();
+
+    const filePath = 'downloaded-data.json';
+    fs.writeFileSync(filePath, JSON.stringify(items, null, 2));
+
+    res.download(filePath, 'downloaded-data.json', (err) => {
+      if (err) {
+        res.status(500).json({ error: 'An error occurred while downloading data' });
+      }
+      fs.unlinkSync(filePath);
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+app.post('/api/upload', upload.single('jsonFile'), async (req, res) => {
+  try {
+    const filePath = req.file.path;
+    const fileData = fs.readFileSync(filePath, 'utf-8');
+    const jsonData = JSON.parse(fileData);
+
+    const result = await Product.create(jsonData);
+    res.json({ message: 'JSON file uploaded and data saved', data: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error uploading JSON file', error: error.message });
+  }
+});
 
 
 app.listen(9002, () => {

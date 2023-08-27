@@ -5,8 +5,8 @@ import Homepage from './components/homepage/homepage';
 import Login from './components/login/login';
 import Register from './components/register/register';
 import Statistics from './components/statistics/statistics';  // New import for the Statistics component
+import Data from './components/data/data';  // New import for the Data component
 import Inbox from './components/inbox/inbox';  // Adjust this path as needed
-
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -47,6 +47,8 @@ function App() {
           <Route path="/statistics">  {/* New Route for Statistics */}
             <Statistics />
           </Route>
+          <Route path="/data">  {/* New Route for Data */}
+            <Data />
           <Route path="/inbox">
             <Inbox/>
           </Route>
