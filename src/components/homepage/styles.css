@@ -13,6 +13,7 @@ body {
 /* Container for all content */
 .container {
   display: flex;
+  height: 100%;
   
 }
 
@@ -22,7 +23,7 @@ body {
   color: #fff;
   padding: 20px;
   width: 220px;
-  min-height: 100vh;  /* Full-screen height */
+  min-height: 200vh;  /* Full-screen height */
 }
 
 .sidebar h2 {
