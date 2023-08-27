@@ -146,18 +146,26 @@ const Grocery = mongoose.model('Grocery', grocerySchema);
 
 // Add grocery route
 app.post('/addGrocery', async (req, res) => {
-  const { item } = req.body;
-
-  const grocery = new Grocery({
-    item,
+  const { grocery } = req.body;
+  const newGrocery = new Grocery({
+    item: grocery
   });
 
   try {
-    await grocery.save();
+    await newGrocery.save();
     res.json({ message: 'Grocery added', grocery: grocery });
   } catch (error) {
     console.error('Error adding grocery:', error);
     res.status(500).json({ message: 'An error occurred while adding the grocery' });
+  }
+});
+app.get('/getGroceries', async (req, res) => {
+  try {
+    const groceries = await Grocery.find({});
+    res.json(groceries);
+  } catch (err) {
+    console.error('Error fetching groceries:', err);
+    res.status(500).json({ message: 'An error occurred while fetching groceries' });
   }
 });
 

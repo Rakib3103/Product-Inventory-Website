@@ -6,19 +6,12 @@ const Homepage = () => {
   const [note, setNote] = useState("");
   const [products, setProducts] = useState([]);
   const [groceries, setGroceries] = useState([]);
+  const [groceryInput, setGroceryInput] = useState("");
 
-  // Fetch groceries on component mount
-  useEffect(() => {
-    fetch('http://localhost:9002/getGroceries')
-      .then(res => res.json())
-      .then(data => {
-        setGroceries(data);
-      })
-      .catch(err => console.error('Error fetching groceries:', err));
-  }, []);
 
   const handleAddGrocery = () => {
-    const grocery = document.getElementById('grocery-input').value;
+    // const grocery = document.getElementById('grocery-input').value;
+    const grocery = groceryInput;
 
     fetch('http://localhost:9002/addGrocery', {
       method: 'POST',
@@ -35,13 +28,26 @@ const Homepage = () => {
         }
       })
       .then(data => {
-        setGroceries([...groceries, data.grocery]);
+        setGroceries([...groceries, data.grocery]); // Append new grocery item
+        setGroceryInput("");
       })
       .catch(err => {
         console.error('Error adding grocery:', err);
         // Handle error
       });
   };
+
+
+    // Fetch groceries on component mount
+    useEffect(() => {
+      fetch('http://localhost:9002/getGroceries')
+        .then(res => res.json())
+        .then(data => {
+          console.log('Fetched Groceries:', data);
+          setGroceries(data);
+        })
+        .catch(err => console.error('Error fetching groceries:', err));
+    }, []);
 
   useEffect(() => {
     fetch('http://localhost:9002/getProducts')
@@ -139,17 +145,28 @@ const Homepage = () => {
         </header>
 
 
-        <div className="grocery">
+      <div className="grocery">
         <h2>Grocery List</h2>
         <div className="Add-Grocery-List">
-          <input type="text" id="grocery-input" placeholder="Add here" />
+          <input type="text" value={groceryInput} onChange={e => setGroceryInput(e.target.value)} placeholder="Add here" />
+          {/* <input type='text' id="grocery-input" placeholder="Add here" /> */}
           <button onClick={handleAddGrocery}>Add Grocery</button>
         </div>
-        <ul id="grocery-list">
-          {groceries.map((grocery, index) => (
-            <li key={index}>{grocery}</li>
-          ))}
-        </ul>
+        <table id="grocery-list">
+          <thead>
+            <tr>
+              <th>Grocery Item</th>
+            </tr>
+          </thead>
+          <tbody>
+            {groceries.map((grocery, index) => (
+              <tr key={index}>
+                {/* <td>{index + 1}</td> */}
+                <td>{grocery.item}</td> {/* Access item property here */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
         <div className="products">
