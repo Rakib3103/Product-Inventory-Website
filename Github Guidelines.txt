@@ -1,0 +1,19 @@
+                            ----------------------------------------------------
+                            |           Commands for pushing in github         |
+                            ----------------------------------------------------
+** git init
+** git add .
+** git commit -m "your message"
+                            -----------------------------------------------------
+                            |            For pushing in Rakib's repository      |
+                            -----------------------------------------------------
+** git remote add origin 'https://github.com/Rakib3103/Product-Inventory-Website.git'
+** git commit -m "your message"
+** sync github
+                            --------------------------------------------------------
+                            |            For pushing in Nourin's repository        |
+                            --------------------------------------------------------
+** git remote add origin 'https://github.com/nourinsiddique/CSE470_Clueless.git'
+** git remote set-url origin 'https://github.com/nourinsiddique/CSE470_Clueless.git'
+** git commit -m "your message"
+** sync github
