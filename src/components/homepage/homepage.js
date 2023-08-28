@@ -194,7 +194,7 @@ const Homepage = () => {
               <li className="next">&#10095;</li>
               <li>
                 August<br />
-                <span style={{ fontSize: '18px' }}>2021</span>
+                <span style={{ fontSize: '18px' }}>2023</span>
               </li>
             </ul>
           </div>
